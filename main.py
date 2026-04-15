@@ -32,7 +32,7 @@ DEFAULT_LONGITUDE = os.getenv("DEFAULT_LONGITUDE", "")
 DEFAULT_LOCATION_ADDRESS = os.getenv("DEFAULT_LOCATION_ADDRESS", "")
 
 app = FastAPI(title="Brainerhub Attendance API")
-templates = Jinja2Templates(directory="app/templates")
+templates = Jinja2Templates(directory="templates")
 
 
 class ClockInPayload(BaseModel):
