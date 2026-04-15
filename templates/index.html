@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tack API</title>
+  <style>
+    :root {
+      --bg: #081026;
+      --bg-2: #111a34;
+      --panel: rgba(11, 21, 47, 0.8);
+      --line: rgba(148, 163, 184, 0.28);
+      --text: #e6eefc;
+      --muted: #a6b4d7;
+      --primary: #38bdf8;
+      --primary-2: #0ea5e9;
+      --good: #22c55e;
+      --bad: #f43f5e;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 15%, #38bdf826 0%, transparent 40%),
+        radial-gradient(circle at 85% 10%, #22c55e1f 0%, transparent 40%),
+        linear-gradient(140deg, var(--bg), var(--bg-2));
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      padding: 18px;
+    }
+
+    .container {
+      width: min(760px, 100%);
+      margin: 0 auto;
+      display: grid;
+      gap: 14px;
+    }
+
+    .title-box {
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--panel);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 24px rgba(2, 6, 23, 0.35);
+    }
+
+    h1 { margin: 0; font-size: clamp(24px, 6vw, 32px); }
+    .subtitle { margin: 8px 0 0; color: var(--muted); font-size: 14px; }
+
+    .box {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--panel);
+      padding: 16px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 26px rgba(2, 6, 23, 0.28);
+    }
+
+    .box h2 {
+      margin: 0 0 10px;
+      font-size: clamp(20px, 5vw, 24px);
+    }
+
+    label {
+      display: block;
+      margin-top: 11px;
+      font-size: 12px;
+      letter-spacing: 0.02em;
+      color: var(--muted);
+    }
+
+    input {
+      width: 100%;
+      margin-top: 6px;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid #30405f;
+      background: #0a1228;
+      color: var(--text);
+      outline: none;
+      font-size: 15px;
+    }
+
+    input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px #38bdf833;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 12px;
+      align-items: center;
+    }
+
+    button {
+      border: 0;
+      border-radius: 10px;
+      padding: 11px 14px;
+      min-height: 42px;
+      color: #03131c;
+      font-weight: 600;
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
+      box-shadow: 0 8px 18px #0891b23f;
+    }
+
+    button:hover { transform: translateY(-1px); }
+    button:active { transform: translateY(0); }
+    button:disabled { opacity: 0.45; cursor: not-allowed; }
+
+    .btn-ghost {
+      color: var(--text);
+      background: #1b2744;
+      box-shadow: none;
+      border: 1px solid #3b4f75;
+    }
+
+    .status {
+      margin-top: 12px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .status.ok { color: var(--good); }
+    .status.err { color: var(--bad); }
+
+    pre {
+      margin: 0;
+      white-space: pre-wrap;
+      word-break: break-word;
+      background: #030916c2;
+      border: 1px solid #33496c;
+      border-radius: 12px;
+      padding: 14px;
+      color: #d2e8ff;
+      min-height: 132px;
+      overflow: auto;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .hint {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    @media (max-width: 640px) {
+      body { padding: 12px; }
+      .title-box, .box { padding: 14px; border-radius: 12px; }
+      .btn-row { flex-direction: column; align-items: stretch; }
+      button { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <section class="title-box">
+      <h1>Tack API</h1>
+      <p class="subtitle">Single action Non-in. Login happens internally using your credentials.</p>
+    </section>
+
+    <section class="box">
+      <h2>Non In</h2>
+      <label for="email">Email</label>
+      <input id="email" type="email" placeholder="Enter email address" />
+
+      <label for="password">Password</label>
+      <input id="password" type="password" placeholder="Enter password" value="Abcd@1234" />
+
+      <label for="userCode">User Code (optional)</label>
+      <input id="userCode" type="text" placeholder="Leave empty to use .env default" />
+
+      <label for="latitude">Latitude (optional)</label>
+      <input id="latitude" type="text" placeholder="Leave empty to use .env default" />
+
+      <label for="longitude">Longitude (optional)</label>
+      <input id="longitude" type="text" placeholder="Leave empty to use .env default" />
+
+      <label for="locationAddress">Location Address (optional)</label>
+      <input id="locationAddress" type="text" placeholder="Leave empty to use .env default" />
+
+      <div class="btn-row">
+        <button id="clockInBtn" onclick="clockIn()">Non In</button>
+        <button class="btn-ghost" id="copyTokenBtn" onclick="copyToken()">Copy Last Token</button>
+      </div>
+      <p class="hint">cast is fetched automatically during non in.</p>
+      <div id="status" class="status">Ready.</div>
+    </section>
+
+    <section class="box">
+      <h2>Response</h2>
+      <pre id="output">No request sent yet.</pre>
+    </section>
+  </main>
+
+  <script>
+    const out = document.getElementById("output");
+    const statusEl = document.getElementById("status");
+    const clockInBtn = document.getElementById("clockInBtn");
+    const copyTokenBtn = document.getElementById("copyTokenBtn");
+    let lastToken = "";
+
+    function show(data) {
+      out.textContent = JSON.stringify(data, null, 2);
+    }
+
+    async function clockIn() {
+      const payload = {
+        emailAddress: document.getElementById("email").value.trim(),
+        password: document.getElementById("password").value,
+        userCode: document.getElementById("userCode").value.trim(),
+        latitude: document.getElementById("latitude").value.trim(),
+        longitude: document.getElementById("longitude").value.trim(),
+        locationAddress: document.getElementById("locationAddress").value.trim()
+      };
+
+      if (!payload.emailAddress || !payload.password) {
+        statusEl.textContent = "Email and password are required.";
+        statusEl.className = "status err";
+        return;
+      }
+
+      clockInBtn.disabled = true;
+      statusEl.textContent = "Processing login + clock-in...";
+      statusEl.className = "status";
+      try {
+        const res = await fetch("/clock-in", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (data && data.token) {
+          lastToken = data.token;
+        }
+        show(data);
+        if (data && data.success) {
+          statusEl.textContent = "Clock-in successful.";
+          statusEl.className = "status ok";
+        } else {
+          statusEl.textContent = "Clock-in failed.";
+          statusEl.className = "status err";
+        }
+      } catch (err) {
+        show({ error: String(err) });
+        statusEl.textContent = "Request failed.";
+        statusEl.className = "status err";
+      } finally {
+        clockInBtn.disabled = false;
+      }
+    }
+
+    async function copyToken() {
+      const token = lastToken.trim();
+      if (!token) {
+        statusEl.textContent = "No token available to copy.";
+        statusEl.className = "status err";
+        return;
+      }
+      try {
+        await navigator.clipboard.writeText(token);
+        statusEl.textContent = "Token copied to clipboard.";
+        statusEl.className = "status ok";
+      } catch (err) {
+        show({ error: "Failed to copy token.", detail: String(err) });
+        statusEl.textContent = "Failed to copy token.";
+        statusEl.className = "status err";
+      }
+    }
+  </script>
+</body>
+</html>
