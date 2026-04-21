@@ -26,7 +26,6 @@ _load_env_file(BASE_DIR / ".env")
 
 LOGIN_URL = os.getenv("LOGIN_URL", "")
 CLOCK_IN_URL = os.getenv("CLOCK_IN_URL", "")
-DEFAULT_USER_CODE = os.getenv("DEFAULT_USER_CODE", "")
 DEFAULT_LATITUDE = os.getenv("DEFAULT_LATITUDE", "")
 DEFAULT_LONGITUDE = os.getenv("DEFAULT_LONGITUDE", "")
 DEFAULT_LOCATION_ADDRESS = os.getenv("DEFAULT_LOCATION_ADDRESS", "")
@@ -42,6 +41,13 @@ class ClockInPayload(BaseModel):
     latitude: str | None = None
     longitude: str | None = None
     locationAddress: str | None = None
+
+
+def _clean_optional(value: str | None) -> str | None:
+    if value is None:
+        return None
+    cleaned = value.strip()
+    return cleaned or None
 
 
 def _call_post(url: str, headers: dict[str, str], payload: dict[str, Any]) -> requests.Response:
@@ -97,12 +103,17 @@ def clock_in(payload: ClockInPayload) -> dict[str, Any]:
         "Content-Type": "application/json",
         "Accept": "application/json",
     }
+    user_code = _clean_optional(payload.userCode)
     clock_payload = {
-        "userCode": payload.userCode or DEFAULT_USER_CODE,
-        "latitude": payload.latitude or DEFAULT_LATITUDE,
-        "longitude": payload.longitude or DEFAULT_LONGITUDE,
-        "locationAddress": payload.locationAddress or DEFAULT_LOCATION_ADDRESS,
+        "latitude": _clean_optional(payload.latitude) or DEFAULT_LATITUDE,
+        "longitude": _clean_optional(payload.longitude) or DEFAULT_LONGITUDE,
+        "locationAddress": _clean_optional(payload.locationAddress)
+        or DEFAULT_LOCATION_ADDRESS,
     }
+    # Only send userCode if explicitly provided from frontend.
+    if user_code is not None:
+        clock_payload["userCode"] = user_code
+
     clock_resp = _call_post(CLOCK_IN_URL, clock_headers, clock_payload)
     clock_body = _response_body(clock_resp)
 

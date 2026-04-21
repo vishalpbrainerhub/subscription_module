@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Tack API</title>
+  <title>Brainerhub Attendance API</title>
   <style>
     :root {
       --bg: #081026;
@@ -162,20 +162,20 @@
 <body>
   <main class="container">
     <section class="title-box">
-      <h1>Tack API</h1>
-      <p class="subtitle">Single action Non-in. Login happens internally using your credentials.</p>
+      <h1>Brainerhub Attendance API</h1>
+      <p class="subtitle">Single action clock-in. Login happens internally using your credentials.</p>
     </section>
 
     <section class="box">
-      <h2>Non In</h2>
+      <h2>Clock In</h2>
       <label for="email">Email</label>
       <input id="email" type="email" placeholder="Enter email address" />
 
       <label for="password">Password</label>
-      <input id="password" type="password" placeholder="Enter password" value="Abcd@1234" />
+      <input id="password" type="password" placeholder="Enter password" />
 
       <label for="userCode">User Code (optional)</label>
-      <input id="userCode" type="text" placeholder="Leave empty to use .env default" />
+      <input id="userCode" type="text" placeholder="Optional: pass only if required" />
 
       <label for="latitude">Latitude (optional)</label>
       <input id="latitude" type="text" placeholder="Leave empty to use .env default" />
@@ -187,10 +187,10 @@
       <input id="locationAddress" type="text" placeholder="Leave empty to use .env default" />
 
       <div class="btn-row">
-        <button id="clockInBtn" onclick="clockIn()">Non In</button>
+        <button id="clockInBtn" onclick="clockIn()">Clock In</button>
         <button class="btn-ghost" id="copyTokenBtn" onclick="copyToken()">Copy Last Token</button>
       </div>
-      <p class="hint">cast is fetched automatically during non in.</p>
+      <p class="hint">Token is fetched automatically during clock-in.</p>
       <div id="status" class="status">Ready.</div>
     </section>
 
@@ -215,10 +215,10 @@
       const payload = {
         emailAddress: document.getElementById("email").value.trim(),
         password: document.getElementById("password").value,
-        userCode: document.getElementById("userCode").value.trim(),
-        latitude: document.getElementById("latitude").value.trim(),
-        longitude: document.getElementById("longitude").value.trim(),
-        locationAddress: document.getElementById("locationAddress").value.trim()
+        userCode: document.getElementById("userCode").value.trim() || null,
+        latitude: document.getElementById("latitude").value.trim() || null,
+        longitude: document.getElementById("longitude").value.trim() || null,
+        locationAddress: document.getElementById("locationAddress").value.trim() || null
       };
 
       if (!payload.emailAddress || !payload.password) {
